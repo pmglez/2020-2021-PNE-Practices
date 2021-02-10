@@ -1,2 +1,2 @@
-print("This is mu first python program in Pycharm")
+print("This is my first python program in Pycharm")
 print("Hello world")
