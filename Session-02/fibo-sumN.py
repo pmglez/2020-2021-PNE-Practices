@@ -17,4 +17,4 @@ def fibo_sum(n):
 
 
 print("Sum of the First 5 terms of the Fibonacci series: ", fibo_sum(5))
-print("Sum of the First 5 terms of the Fibonacci series: ", fibo_sum(10))
+print("Sum of the First 10 terms of the Fibonacci series: ", fibo_sum(10))
