@@ -34,6 +34,7 @@ def seq_count(seq):                 # def seq_count(seq):
             t += 1
     return {"A": a, "C": c, "G": g, "T": t}
 
+
 def seq_reverse(seq):
     seq_list = list(seq)
     reverse_list = seq_list[:: -1]
