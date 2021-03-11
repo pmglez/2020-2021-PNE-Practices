@@ -2,6 +2,7 @@ from Seq1 import Seq
 
 print("-----| Practice 1, Exercise 9 |------")
 
+
 def print_result(num, sequence):
     print("Sequence " + str(num) + ": ( Length: " + str(sequence.len()) + " ) " + str(sequence))
     print("Bases:", sequence.count())

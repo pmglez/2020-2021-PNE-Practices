@@ -1,11 +1,11 @@
 from Seq01 import Seq, generate_seqs
+import termcolor
 
 seq_list1 = generate_seqs("A", 3)
 seq_list2 = generate_seqs("AC", 5)
 
-print("List 1:")
-Seq.print_seqs_2(seq_list1)
+termcolor.cprint("List 1:", "blue")
+Seq.print_seqs_blue(seq_list1)
 
-print()
-print("List 2:")
-Seq.print_seqs_2(seq_list2)
+termcolor.cprint("List 2:", "green")
+Seq.print_seqs_green(seq_list2)

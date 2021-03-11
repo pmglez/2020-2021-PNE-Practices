@@ -123,6 +123,13 @@ class Seq:
     def seq_read_fasta(self, filename):
         self.strbases = Seq.take_out_first_line(Path(filename).read_text())
 
+    def seq_count_max_base(self):
+        gene_dict = self.count()
+        max_base = max(gene_dict, key=gene_dict.get)
+        return max_base
+
+
+
 
 def test_sequences():
     s1 = Seq()
