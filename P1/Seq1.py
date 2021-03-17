@@ -88,7 +88,8 @@ class Seq:
 
     def count(self):
         a, c, g, t = self.count_bases()
-        return {"A": a, "C": c, "G": g, "T": t}
+        gene_dict = {"A": a, "C": c, "G": g, "T": t}
+        return gene_dict
 
     def reverse(self):
         if self.strbases == Seq.NULL_SEQUENCE:
@@ -123,12 +124,17 @@ class Seq:
     def seq_read_fasta(self, filename):
         self.strbases = Seq.take_out_first_line(Path(filename).read_text())
 
-    def seq_count_max_base(self):
-        gene_dict = self.count()
-        max_base = max(gene_dict, key=gene_dict.get)
+    @staticmethod
+    def seq_count_max_base(dictionary):
+        max_base = max(dictionary.gene_dict())
+        for key, value in dictionary.items():
+            if value == max_base:
+                return key
+
+    @staticmethod
+    def count_max_base(dictionary):
+        max_base = max(dictionary.gene_dict, key=dictionary.gene_dict.get)
         return max_base
-
-
 
 
 def test_sequences():
