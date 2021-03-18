@@ -124,17 +124,12 @@ class Seq:
     def seq_read_fasta(self, filename):
         self.strbases = Seq.take_out_first_line(Path(filename).read_text())
 
-    @staticmethod
-    def seq_count_max_base(dictionary):
-        max_base = max(dictionary.gene_dict())
-        for key, value in dictionary.items():
+    def most_frequent(self):
+        gene_dict = self.count()
+        max_base = max(gene_dict.values())
+        for key, value in gene_dict.items():
             if value == max_base:
                 return key
-
-    @staticmethod
-    def count_max_base(dictionary):
-        max_base = max(dictionary.gene_dict, key=dictionary.gene_dict.get)
-        return max_base
 
 
 def test_sequences():

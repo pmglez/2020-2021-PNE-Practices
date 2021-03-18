@@ -9,7 +9,7 @@ def print_result():
     for gene in gene_list:
         sequence = Seq()
         sequence.seq_read_fasta(folder + gene + ".txt")
-        max_base = Seq.seq_count_max_base(sequence.seq_read_fasta(folder + gene + ".txt"))
+        max_base = sequence.most_frequent()
         print("Gene " + gene + ": Most frequent base: " + max_base)
         print("Bases:", sequence.count())
 
