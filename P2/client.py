@@ -1,8 +1,8 @@
 import socket
 
 # SERVER IP, PORT
-PORT = 8081
-IP = "192.168.124.179"
+PORT = 12002
+IP = "192.168.8.212"
 
 # First, create the socket
 # We will always use this parameters: AF_INET y SOCK_STREAM
