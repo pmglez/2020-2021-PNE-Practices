@@ -14,7 +14,7 @@ class Client:
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
             s.connect((self.ip, self.port))
-            print("Server us up")
+            print("Server is up")
             s.close()
         except ConnectionRefusedError:
             print("Could not connect to the server. Is it running? Have you checked the IP and the Port?")
@@ -33,7 +33,7 @@ class Client:
 
         # Send data.
         print("To Server: " + msg)
-        s.send(msg.encode)
+        s.send(msg.encode())
 
         # Receive data
         response = s.recv(2048).decode("utf-8")
@@ -55,7 +55,7 @@ class Client:
         # Send data.
         print("To Server: ")
         termcolor.cprint(msg, "blue")
-        s.send(msg.encode)
+        s.send(msg.encode())
 
         # Receive data
         response = s.recv(2048).decode("utf-8")

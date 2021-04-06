@@ -7,7 +7,7 @@ EXERCISE = 1
 print(f"-----| Practice {PRACTICE}, Exercise {EXERCISE}|-----")
 
 # IP always a string, Port always integer
-IP = "127.0.0.1"
+IP = "192.168.8.212"
 PORT = 12000
 # IP always a string, Port always integer
 

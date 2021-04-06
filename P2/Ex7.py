@@ -6,9 +6,9 @@ EXERCISE = 7
 
 print(f"-----| Practice {PRACTICE}, Exercise {EXERCISE}|-----")
 
-IP = "127.0.0.1"
+IP = "192.168.8.212"
 PORT = 12000
-PORT_2 = 12300
+PORT_2 = 12001
 
 c = Client(IP, PORT)
 c_2 = Client(IP, PORT_2)
