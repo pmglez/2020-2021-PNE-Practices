@@ -1,7 +1,8 @@
 import socket
+import termcolor
 
 # SERVER IP, PORT
-PORT = 8082
+PORT = 8081
 IP = "192.168.8.212"
 
 # First, create the socket
@@ -13,7 +14,8 @@ s.connect((IP, PORT))
 
 # Send data. No strings can be send, only bytes
 # It necessary to encode the string into bytes
-s.send(str.encode("2"))
+# s.send(str.encode("Test1..."))
+s.send(str.encode(str(termcolor.cprint("Test1...", "yellow"))))
 
 # Receive data from the server
 msg = s.recv(2048)
