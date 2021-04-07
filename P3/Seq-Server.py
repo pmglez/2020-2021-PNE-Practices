@@ -1,11 +1,11 @@
 import socket
 import server_utils
 
-list_sequences = ["ACGATTATATCGCCGATGA", "ACCTAGCTAGACGACAAGCGATCTAC", "AAACTCGGGATCAGATCACTGAC",
-                  "CGCAGTCGATAGATATCGCATATCA", "GTAGATGCTCATACTACGA"]
+list_sequences = ["AGATCGCGCCACTTCACTGC", "AGCCTCCGCGAAAGAGCGAA", "ACTCCGTCTCAGTAAATAAA", "CTGTACCCGCGTGTTATTTC", "GCCCCCCTCGAAAGTTCCTT"]
+
 # Configure the Server's IP and PORT
-PORT = 8082
-IP = "192.168.8.212"
+PORT = 8080
+IP = "127.0.0.1"
 
 # -- Step 1: create the socket
 ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -20,12 +20,11 @@ ls.bind((IP, PORT))
 ls.listen()
 
 print("The server is configured!")
-
 count_connections = 0
 client_address_list = []
 while True:
     # -- Waits for a client to connect
-    print("Waiting for Clients to connect")
+    print("Waiting for clients....")
 
     try:
         (cs, client_ip_port) = ls.accept()
@@ -43,32 +42,31 @@ while True:
         # -- Exit!
         exit()
 
-    # -- Execute this part if there are no errors
+    # -- Read the message from the client
+    # -- The received message is in raw bytes
+    msg_raw = cs.recv(2048)
+
+    # -- We decode it for converting it
+    # -- into a human-readable string
+    msg = msg_raw.decode()
+
+    formatted_message = server_utils.format_command(msg)
+
+    formatted_message = formatted_message.split(" ")
+    if len(formatted_message) == 1:
+        command = formatted_message[0]
     else:
+        command = formatted_message[0]
+        argument = formatted_message[1]
+    if command == "PING":
+        server_utils.ping(cs)
 
-        print("A client has connected to the server!")
+    elif command == "GET":
+        server_utils.get(cs, list_sequences, argument)
 
-        # -- Read the message from the client
-        # -- The received message is in raw bytes
-        msg_raw = cs.recv(2048)
-        """print(msg_raw)"""
+    else:
+        response = "Not available command"
+        cs.send(str(response).encode())
 
-        # -- We decode it for converting it
-        # -- into a human-readable string
-        msg = msg_raw.decode()
-
-        formatted_message = server_utils.format_command(msg)
-        if formatted_message == "PING":
-            server_utils.ping()
-            # -- Send a response message to the client
-            response = "OK!"
-            # -- The message has to be encoded into bytes
-            cs.send(str(response).encode())
-
-        # -- Close the socket
-        cs.close()
-
-        if count_connections == 5:
-            for i in range(0, len(client_address_list)):
-                print("Client " + str(i) + ": Client IP, PORT: " + str(client_address_list[i]))
-            exit(0)
+    # -- Close the data socket
+    cs.close()
