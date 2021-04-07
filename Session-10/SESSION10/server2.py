@@ -1,7 +1,13 @@
 import socket
 
+# -- Step 1: create the socket
+ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# -- Optional: This is for avoiding the problem of Port already in use
+ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 # Configure the Server's IP and PORT
-PORT = 8082
+PORT = 8080
 IP = "192.168.8.212"
 
 # -- Step 1: create the socket
@@ -17,16 +23,13 @@ ls.bind((IP, PORT))
 ls.listen()
 
 print("The server is configured!")
-
 count_connections = 0
-client_address_list = []
 while True:
     # -- Waits for a client to connect
     print("Waiting for Clients to connect")
 
     try:
         (cs, client_ip_port) = ls.accept()
-        client_address_list.append((client_ip_port))
         count_connections += 1
         print("Connection " + str(count_connections) + ". Client IP, PORT: " + str(client_ip_port))
 
@@ -40,32 +43,26 @@ while True:
         # -- Exit!
         exit()
 
-    # -- Execute this part if there are no errors
-    else:
+    # -- Read the message from the client
+    # -- The received message is in raw bytes
+    msg_raw = cs.recv(2048)
 
-        print("A client has connected to the server!")
+    # -- We decode it for converting it
+    # -- into a human-readable string
+    msg = msg_raw.decode()
 
-        # -- Read the message from the client
-        # -- The received message is in raw bytes
-        msg_raw = cs.recv(2048)
+    # -- Print the received message
+    print(f"Message received: {msg}")
 
-        # -- We decode it for converting it
-        # -- into a human-readable string
-        msg = msg_raw.decode()
-
-        # -- Print the received message
-        print(f"Message received: {msg}")
-
-        # -- Send a response message to the client
+    # -- Send a response message to the client
+    try:
         response = int(msg) ** int(msg)
+        print("Response:", response)
 
         # -- The message has to be encoded into bytes
+        cs.send(str(response).encode())
+    except ValueError:
         cs.send("We need a number".encode())
 
-        # -- Close the socket
-        cs.close()
-
-        if count_connections == 5:
-            for i in range(0, len(client_address_list)):
-                print("Client " + str(i) + ": Client IP, PORT: " + str(client_address_list[i]))
-            exit(0)
+    # -- Close the data socket
+    cs.close()

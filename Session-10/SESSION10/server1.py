@@ -1,7 +1,13 @@
 import socket
 
+# -- Step 1: create the socket
+ls = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# -- Optional: This is for avoiding the problem of Port already in use
+ls.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
 # Configure the Server's IP and PORT
-PORT = 8081
+PORT = 8080
 IP = "192.168.8.212"
 
 # -- Step 1: create the socket
@@ -17,7 +23,6 @@ ls.bind((IP, PORT))
 ls.listen()
 
 print("The server is configured!")
-
 while True:
     # -- Waits for a client to connect
     print("Waiting for Clients to connect")
@@ -52,10 +57,14 @@ while True:
         print(f"Message received: {msg}")
 
         # -- Send a response message to the client
-        response = "ECHO: Test1..."
+        try:
+            response = int(msg) ** int(msg)
+            print("Response:", response)
 
-        # -- The message has to be encoded into bytes
-        cs.send(response.encode())
+            # -- The message has to be encoded into bytes
+            cs.send(str(response).encode())
+        except ValueError:
+            cs.send("We need a number".encode())
 
-        # -- Close the socket
+        # -- Close the data socket
         cs.close()
