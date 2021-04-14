@@ -131,6 +131,21 @@ class Seq:
             if value == max_base:
                 return key
 
+    def percentage(self):
+        a, c, g, t = self.count_bases()
+        for ch in self.strbases:
+            if ch == "A":
+                percent_A = round(a / len(str(self.strbases)) * 100, 1)
+            elif ch == "C":
+                percent_C = round(c / len(str(self.strbases)) * 100, 1)
+            elif ch == "G":
+                percent_G = round(g / len(str(self.strbases)) * 100, 1)
+            elif ch == "T":
+                percent_T = round(t / len(str(self.strbases)) * 100, 1)
+        text = "A: " + str(a) + " (" + str(percent_A) + "%)" + "\nC: " + str(c) + " (" + str(percent_C) + "%)" + \
+               "\nG: " + str(g) + " (" + str(percent_G) + "%)" + "\nT: " + str(t) + " (" + str(percent_T) + "%)"
+        return text
+
 
 def test_sequences():
     s1 = Seq()

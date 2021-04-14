@@ -1,3 +1,6 @@
+from Seq1 import Seq
+
+
 def print_coloured(message, color):
     import termcolor
     """import colorama
@@ -18,5 +21,31 @@ def ping(cs):
 def get(cs, list_sequences, argument):
     print_coloured("GET", "green")
     response = list_sequences[int(argument)]
+    print(response)
+    cs.send(str(response).encode())
+
+
+def info(cs, argument):
+    print_coloured("INFO", "green")
+    sequence = Seq(argument)
+    response = "Sequence: " + str(sequence) + \
+               "\nTotal length: " + str(len(str(sequence))) + \
+               "\n" + Seq.percentage(sequence)
+    print(response)
+    cs.send(str(response).encode())
+
+
+def comp(cs, argument):
+    print_coloured("COMP", "green")
+    sequence = Seq(argument)
+    response = Seq.complement(sequence)
+    print(response)
+    cs.send(str(response).encode())
+
+
+def rev(cs, argument):
+    print_coloured("REV", "green")
+    sequence = Seq(argument)
+    response = Seq.reverse(sequence)
     print(response)
     cs.send(str(response).encode())
