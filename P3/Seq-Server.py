@@ -4,7 +4,7 @@ import server_utils
 list_sequences = ["AGATCGCGCCACTTCACTGC", "AGCCTCCGCGAAAGAGCGAA", "ACTCCGTCTCAGTAAATAAA", "CTGTACCCGCGTGTTATTTC", "GCCCCCCTCGAAAGTTCCTT"]
 
 # Configure the Server's IP and PORT
-PORT = 8080
+PORT = 8081
 IP = "127.0.0.1"
 
 # -- Step 1: create the socket
@@ -73,6 +73,9 @@ while True:
 
     elif command == "REV":
         server_utils.rev(cs, argument)
+
+    elif command == "GENE":
+        server_utils.gene(cs, argument)
 
     else:
         response = "Not available command"

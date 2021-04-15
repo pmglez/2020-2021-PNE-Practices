@@ -49,3 +49,13 @@ def rev(cs, argument):
     response = Seq.reverse(sequence)
     print(response)
     cs.send(str(response).encode())
+
+
+def gene(cs, argument):
+    print_coloured("GENE", "green")
+    folder = "./sequences/"
+    sequence = Seq()
+    sequence.seq_read_fasta(folder + argument + ".txt")
+    response = sequence
+    print(response)
+    cs.send(str(response).encode())
