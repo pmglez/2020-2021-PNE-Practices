@@ -18,6 +18,7 @@ print("* Testing GET...")
 for i in range(0, 4):
     print("GET " + str(i) + ": " + c.talk("GET " + str(i)))
 
+# Sequence from Get 0
 sequence = "AGATCGCGCCACTTCACTGC"
 
 print("\n\n* Testing INFO...")
