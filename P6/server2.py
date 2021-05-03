@@ -1,22 +1,16 @@
 import http.server
 import socketserver
 import termcolor
-import pathlib
-import jinja2
-
-
-def read_html_file(filename):
-    content = pathlib.Path(filename).read_text()
-    return content
-
-
-def read_template_html_file(filename):
-    content = jinja2.Template(pathlib.Path(filename).read_text())
-    return content
+from urllib.parse import urlparse, parse_qs
+import server_utils as su
 
 
 # Define the Server's port
 PORT = 8080
+
+LIST_SEQUENCES = ["AGATCGCGCCACTTCACTGC", "AGCCTCCGCGAAAGAGCGAA", "ACTCCGTCTCAGTAAATAAA", "CTGTACCCGCGTGTTATTTC", "GCCCCCCTCGAAAGTTCCTT"]
+
+LIST_GENES = ["ADA", "FRAT1", "FXN", "RNU6_269P", "U5"]
 
 BASES_INFORMATION = {
     "A": {"link": "https://en.wikipedia.org/wiki/Adenine",
@@ -57,32 +51,34 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         termcolor.cprint(self.requestline, 'green')
         termcolor.cprint(self.path, 'blue')
 
-        # IN this simple server version:
+        o = urlparse(self.path)
+        path_name = o.path
+        arguments = parse_qs(o.query)
+        print("Resource requested:", path_name)
+        print("Parameters:", arguments)
+
+        # In this simple server version:
         # We are NOT processing the client's request
         # It is a happy server: It always returns a message saying
         # that everything is ok
 
-        if self.path == "/":
-            contents = read_html_file("./html/index.html")
-        # elif "/info/" in self.path:
-        #    base = self.path.split("/")[-1]
-        #    contents = read_html_file("./html/info/general.html").render(name=BASES_INFORMATION[base]["name"],
-        #                                                                 formula=BASES_INFORMATION[base]["formula"],
-        #                                                                 letter=base,
-        #                                                                 link=BASES_INFORMATION[base]["link"])
-        # Instead of all the code above
-        elif "/info/" in self.path:
-            base = self.path.split("/")[-1]
-            context = BASES_INFORMATION[base]
-            context["letter"] = base
-            contents = read_template_html_file("./html/info/general.html").render(base_information=context)
-        elif self.path.endswith(".html"):
-            try:
-                contents = read_html_file("./html" + self.path)
-            except FileNotFoundError:
-                contents = read_html_file("./html/Error.html")
+        context = {}
+        if path_name == "/":
+            context["n_seq"] = len(LIST_SEQUENCES)
+            context["list_genes"] = LIST_GENES
+            contents = su.read_template_html_file("./html/index.html").render(context=context)
+        elif path_name == "/test":
+            contents = su.read_template_html_file("./html/test.html").render()
+        elif path_name == "/ping":
+            contents = su.read_template_html_file("./html/ping.html").render()
+        elif path_name == "/get":
+            number_sequence = arguments["sequence"][0]
+            contents = su.get(LIST_SEQUENCES, number_sequence)
+        elif path_name == "/gene":
+            gene = arguments["gene"][0]
+            contents = su.gene(gene)
         else:
-            contents = read_html_file("./html/Error.html")
+            contents = su.read_template_html_file("./html/Error.html").render()
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
