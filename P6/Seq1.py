@@ -142,12 +142,13 @@ class Seq:
                 percent_G = round(g / len(str(self.strbases)) * 100, 1)
             elif ch == "T":
                 percent_T = round(t / len(str(self.strbases)) * 100, 1)
-        text = "Total length: " + str(len(self.strbases))\
-               + "\nA: " + str(a) + " (" + str(percent_A) + "%)"\
-               + "\nC: " + str(c) + " (" + str(percent_C) + "%)"\
-               + "\nG: " + str(g) + " (" + str(percent_G) + "%)"\
-               + "\nT: " + str(t) + " (" + str(percent_T) + "%)"
-        return text
+        line1 = "Total length: " + str(len(self.strbases))
+        line2 = "A: " + str(a) + " (" + str(percent_A) + "%)"
+        line3 = "C: " + str(c) + " (" + str(percent_C) + "%)"
+        line4 = "G: " + str(g) + " (" + str(percent_G) + "%)"
+        line5 = "T: " + str(t) + " (" + str(percent_T) + "%)"
+        list_lines = [line1, line2, line3, line4, line5]
+        return list_lines
 
 
 def test_sequences():

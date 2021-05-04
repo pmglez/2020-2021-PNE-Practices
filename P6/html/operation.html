@@ -10,7 +10,9 @@
         <h2>Operation:</h2>
         <p>{{context.operation}}</p>
         <h3>Result:</h3>
-        <p>{{context.result}}</p>
+        <p>{% for line in context.result %}
+            {{line}} <br><br>
+          {% endfor %}</p>
         <p></p>
         <a href="/">Main page</a>
       </body>
