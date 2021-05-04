@@ -77,6 +77,18 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         elif path_name == "/gene":
             gene = arguments["gene"][0]
             contents = su.gene(gene)
+        elif path_name == "/operation":
+            sequence = arguments["sequence"][0]
+            operation = arguments["calculation"][0]
+            if operation == "Info":
+                contents = su.info(sequence, operation)
+            elif operation == "Comp":
+                contents = su.comp(sequence, operation)
+            elif operation == "Rev":
+                contents = su.rev(sequence, operation)
+            else:
+                contents = su.read_template_html_file("./html/Error.html").render()
+
         else:
             contents = su.read_template_html_file("./html/Error.html").render()
 

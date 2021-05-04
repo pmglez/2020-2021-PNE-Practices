@@ -35,30 +35,43 @@ def get(list_sequences, seq_number):
     return contents
 
 
-def info(cs, argument):
-    print_coloured("INFO", "green")
-    sequence = Seq(argument)
-    response = "Sequence: " + str(sequence) + \
-               "\nTotal length: " + str(len(str(sequence))) + \
-               "\n" + Seq.percentage(sequence)
-    print(response)
-    cs.send(str(response).encode())
+def info(seq, opt):
+    sequence = Seq(seq)
+    percentage = Seq.percentage(sequence)
+    operation = opt
+    context = {
+        "sequence": sequence,
+        "operation": operation,
+        "result": percentage
+    }
+    contents = read_template_html_file("./html/operation.html").render(context=context)
+    return contents
 
 
-def comp(cs, argument):
-    print_coloured("COMP", "green")
-    sequence = Seq(argument)
-    response = Seq.complement(sequence)
-    print(response)
-    cs.send(str(response).encode())
+def comp(seq, opt):
+    sequence = Seq(seq)
+    new_sequence = Seq.complement(sequence)
+    operation = opt
+    context = {
+        "sequence": sequence,
+        "operation": operation,
+        "result": new_sequence
+    }
+    contents = read_template_html_file("./html/operation.html").render(context=context)
+    return contents
 
 
-def rev(cs, argument):
-    print_coloured("REV", "green")
-    sequence = Seq(argument)
-    response = Seq.reverse(sequence)
-    print(response)
-    cs.send(str(response).encode())
+def rev(seq, opt):
+    sequence = Seq(seq)
+    new_sequence = Seq.reverse(sequence)
+    operation = opt
+    context = {
+        "sequence": sequence,
+        "operation": operation,
+        "result": new_sequence
+    }
+    contents = read_template_html_file("./html/operation.html").render(context=context)
+    return contents
 
 
 def gene(gene_name):

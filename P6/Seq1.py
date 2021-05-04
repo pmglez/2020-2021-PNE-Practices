@@ -142,8 +142,11 @@ class Seq:
                 percent_G = round(g / len(str(self.strbases)) * 100, 1)
             elif ch == "T":
                 percent_T = round(t / len(str(self.strbases)) * 100, 1)
-        text = "A: " + str(a) + " (" + str(percent_A) + "%)" + "\nC: " + str(c) + " (" + str(percent_C) + "%)" + \
-               "\nG: " + str(g) + " (" + str(percent_G) + "%)" + "\nT: " + str(t) + " (" + str(percent_T) + "%)"
+        text = "Total length: " + str(len(self.strbases))\
+               + "\nA: " + str(a) + " (" + str(percent_A) + "%)"\
+               + "\nC: " + str(c) + " (" + str(percent_C) + "%)"\
+               + "\nG: " + str(g) + " (" + str(percent_G) + "%)"\
+               + "\nT: " + str(t) + " (" + str(percent_T) + "%)"
         return text
 
 
