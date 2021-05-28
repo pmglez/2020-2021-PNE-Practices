@@ -1,0 +1,346 @@
+Test report
+========================================================================================================================
+
+---> listSpecies endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=3
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>LIST OF SPECIES IN THE BROWSER</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The total number of species in the ensembl is : 310 <br>
+           The limit you have selected is : 3 <br>
+           The names of the species are :
+                <ul>
+                    <li>small tree finch</li>
+
+                    <li>Siamese fighting fish</li>
+
+                    <li>large flying fox</li>
+                </ul>
+        </body>
+    </html>
+
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=5
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>LIST OF SPECIES IN THE BROWSER</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The total number of species in the ensembl is : 310 <br>
+           The limit you have selected is : 5 <br>
+           The names of the species are :
+                <ul>
+                    <li>little spotted kiwi</li>
+
+                    <li>Indian glassy fish</li>
+
+                    <li>blue tit</li>
+
+                    <li>narwhal</li>
+
+                    <li>American beaver</li>
+                </ul>
+        </body>
+    </html>
+
+
+
+* TEST 3:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=
+
+* Output:
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+========================================================================================================================
+========================================================================================================================
+
+---> karyotype endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/karyotype?specie=mouse
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>KARYOTYPE OF THE SPECIE</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The names of the chromosomes are : <br>
+
+                    1 <br>
+
+                    2 <br>
+
+                    3 <br>
+
+                    4 <br>
+
+                    5 <br>
+
+                    6 <br>
+
+                    7 <br>
+
+                    8 <br>
+
+                    9 <br>
+
+                    10 <br>
+
+                    11 <br>
+
+                    12 <br>
+
+                    13 <br>
+
+                    14 <br>
+
+                    15 <br>
+
+                    16 <br>
+
+                    17 <br>
+
+                    18 <br>
+
+                    19 <br>
+
+                    X <br>
+
+                    Y <br>
+
+                    MT <br>
+
+        </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/karyotype?specie=human
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>KARYOTYPE OF THE SPECIE</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The names of the chromosomes are : <br>
+
+                    1 <br>
+
+                    2 <br>
+
+                    3 <br>
+
+                    4 <br>
+
+                    5 <br>
+
+                    6 <br>
+
+                    7 <br>
+
+                    8 <br>
+
+                    9 <br>
+
+                    10 <br>
+
+                    11 <br>
+
+                    12 <br>
+
+                    13 <br>
+
+                    14 <br>
+
+                    15 <br>
+
+                    16 <br>
+
+                    17 <br>
+
+                    18 <br>
+
+                    19 <br>
+
+                    20 <br>
+
+                    21 <br>
+
+                    22 <br>
+
+                    X <br>
+
+                    Y <br>
+
+                    MT <br>
+
+        </body>
+    </html>
+
+
+* TEST 3:
+
+* Input:
+
+http://127.0.0.1:8080/karyotype?specie=monkey
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+========================================================================================================================
+========================================================================================================================
+
+---> chromosomeLength endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/chromosomeLength?specie=mouse&chromo=19
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>LENGTH OF THE CHROMOSOME</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The length of the chromosome is : 61420004
+        </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/chromosomeLength?specie=human&chromo=MT
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>LENGTH OF THE CHROMOSOME</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The length of the chromosome is : 16569
+        </body>
+    </html>
+
+
+* TEST 3:
+
+* Input:
+
+http://127.0.0.1:8080/chromosomeLength?specie=&chromo=
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+
+* TEST 4:
+
+* Input:
+
+http://127.0.0.1:8080/chromosomeLength?specie=&chromo=5
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>

@@ -63,14 +63,11 @@ def chromosome_length(specie, chromosome):
             keys.append(i["name"])
             values.append(i["length"])
     s_dict = dict(zip(keys, values))
-    termcolor.cprint(s_dict, "blue")
     if chromosome in keys:
         length = s_dict[chromosome]
-        termcolor.cprint(length, "green")
         context = {
             "length": length
         }
-        termcolor.cprint(context, "yellow")
         contents = read_template_html_file("./html/chromosomeLength.html").render(context=context)
         return contents
     else:

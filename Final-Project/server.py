@@ -35,39 +35,33 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # It is a happy server: It always returns a message saying
         # that everything is ok
 
-        if path_name == "/":
-            contents = SU.read_template_html_file("./html/index.html").render()
-        elif path_name == "/listSpecies":
-            try:
+        try:
+            if path_name == "/":
+                contents = SU.read_template_html_file("./html/index.html").render()
+            elif path_name == "/listSpecies":
                 limit_species = arguments["limit"][0]
                 if limit_species.isdigit() and int(limit_species) > 0:
                     contents = SU.list_species(limit_species)
                 else:
                     contents = SU.read_template_html_file("./html/Error.html").render()
-            except KeyError:
-                contents = SU.read_template_html_file("./html/Error.html").render()
-            print(contents)
-        elif path_name == "/karyotype":
-            try:
+                print(contents)
+            elif path_name == "/karyotype":
                 specie = arguments["specie"][0]
                 contents = SU.information_karyotype(specie)
-            except requests.exceptions.HTTPError:
-                contents = SU.read_template_html_file("./html/Error.html").render()
-            except KeyError:
-                contents = SU.read_template_html_file("./html/Error.html").render()
-            print(contents)
-        elif path_name == "/chromosomeLength":
-            try:
+                print(contents)
+            elif path_name == "/chromosomeLength":
                 specie = arguments["specie"][0]
                 chromosome = arguments["chromo"][0]
                 contents = SU.chromosome_length(specie, chromosome)
-            except requests.exceptions.HTTPError:
+                print(contents)
+            else:
                 contents = SU.read_template_html_file("./html/Error.html").render()
-            except KeyError:
-                contents = SU.read_template_html_file("./html/Error.html").render()
-            print(contents)
-        else:
+        except requests.exceptions.HTTPError:
             contents = SU.read_template_html_file("./html/Error.html").render()
+            print(contents)
+        except KeyError:
+            contents = SU.read_template_html_file("./html/Error.html").render()
+            print(contents)
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
