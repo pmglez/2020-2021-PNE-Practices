@@ -25,7 +25,7 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
 
         if path == "/":
             # Read the file
-            contents = Path('index.html').read_text()
+            contents = Path('./html/index.html').read_text()
             content_type = 'text/html'
             error_code = 200
         elif path == "/listusers":

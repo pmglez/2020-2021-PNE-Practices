@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>LIST OF SPECIES IN THE BROWSER</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The total number of species in the ensembl is : {{context.total_length}} <br>
+           The limit you have selected is : {{context.limit}} <br>
+           The names of the species are :
+                <ul>{% for specie in context.listSpecies %}
+                    <li>{{specie}}</li>
+                {% endfor %}</ul>
+        </body>
+    </html>
