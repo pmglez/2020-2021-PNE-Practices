@@ -8,26 +8,6 @@ import requests
 # Define the Server's port
 PORT = 8080
 
-import sys
-
-server = "https://rest.ensembl.org"
-ext = "/info/assembly/human?"
-
-r = requests.get(server + ext, headers={"Content-Type": "application/json"})
-if not r.ok:
-    r.raise_for_status()
-    sys.exit()
-decoded = r.json()
-s = decoded["top_level_region"]
-for i in s:
-    if i["coord_system"] == "chromosome":
-        s_dict = {
-            i["name"]: i["length"]
-        }
-
-
-
-
 # -- This is for preventing the error: "Port already in use"
 socketserver.TCPServer.allow_reuse_address = True
 
@@ -55,25 +35,37 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # It is a happy server: It always returns a message saying
         # that everything is ok
 
-        context = {}
         if path_name == "/":
             contents = SU.read_template_html_file("./html/index.html").render()
         elif path_name == "/listSpecies":
-            limit_species = arguments["limit"][0]
-            if limit_species.isdigit() and int(limit_species) > 0:
-                contents = SU.list_species(limit_species)
-                print(contents)
-            else:
+            try:
+                limit_species = arguments["limit"][0]
+                if limit_species.isdigit() and int(limit_species) > 0:
+                    contents = SU.list_species(limit_species)
+                else:
+                    contents = SU.read_template_html_file("./html/Error.html").render()
+            except KeyError:
                 contents = SU.read_template_html_file("./html/Error.html").render()
+            print(contents)
         elif path_name == "/karyotype":
             try:
                 specie = arguments["specie"][0]
                 contents = SU.information_karyotype(specie)
-                print(contents)
             except requests.exceptions.HTTPError:
                 contents = SU.read_template_html_file("./html/Error.html").render()
+            except KeyError:
+                contents = SU.read_template_html_file("./html/Error.html").render()
+            print(contents)
         elif path_name == "/chromosomeLength":
-            contents = SU.read_template_html_file("./html/chromosomeLength.html").render()
+            try:
+                specie = arguments["specie"][0]
+                chromosome = arguments["chromo"][0]
+                contents = SU.chromosome_length(specie, chromosome)
+            except requests.exceptions.HTTPError:
+                contents = SU.read_template_html_file("./html/Error.html").render()
+            except KeyError:
+                contents = SU.read_template_html_file("./html/Error.html").render()
+            print(contents)
         else:
             contents = SU.read_template_html_file("./html/Error.html").render()
 

@@ -2,6 +2,7 @@ import requests
 import sys
 import jinja2
 import pathlib
+import termcolor
 
 SERVER = "http://rest.ensembl.org"
 
@@ -48,36 +49,30 @@ def information_karyotype(specie):
     return contents
 
 
-def chromosome_length(specie):
+def chromosome_length(specie, chromosome):
     r = requests.get(SERVER + "/info/assembly/" + specie + "?", headers={"Content-Type": "application/json"})
     if not r.ok:
         r.raise_for_status()
         sys.exit()
     decoded = r.json()
     s = decoded["top_level_region"]
+    keys = []
+    values = []
     for i in s:
         if i["coord_system"] == "chromosome":
-            s_dict = {
-                i["name"]: i["length"]
-            }
-            print(s_dict)
-    contents = read_template_html_file("./html/karyotype.html").render(context=context)
-    return contents
-
-
-server = "https://rest.ensembl.org"
-ext = "/info/assembly/human?"
-
-r = requests.get(server + ext, headers={"Content-Type": "application/json"})
-if not r.ok:
-    r.raise_for_status()
-    sys.exit()
-decoded = r.json()
-s = decoded["top_level_region"]
-s_dict = {}
-for i in s:
-    if i["coord_system"] == "chromosome":
-        s_dict = {
-            i["name"]: i["length"]
+            keys.append(i["name"])
+            values.append(i["length"])
+    s_dict = dict(zip(keys, values))
+    termcolor.cprint(s_dict, "blue")
+    if chromosome in keys:
+        length = s_dict[chromosome]
+        termcolor.cprint(length, "green")
+        context = {
+            "length": length
         }
-        print(s_dict)
+        termcolor.cprint(context, "yellow")
+        contents = read_template_html_file("./html/chromosomeLength.html").render(context=context)
+        return contents
+    else:
+        contents = read_template_html_file("./html/Error.html").render()
+        return contents
