@@ -2,9 +2,22 @@ import requests
 import sys
 import jinja2
 import pathlib
-import termcolor
+from Seq1 import Seq
 
 SERVER = "http://rest.ensembl.org"
+
+DICT_GENES = {
+    "FRAT1": "ENSG00000165879",
+    "ADA": "ENSG00000196839",
+    "FXN": "ENSG00000165060",
+    "RNU6_269P": "ENSG00000212379",
+    "MIR633": "ENSG00000207552",
+    "TTTY4C": "ENSG00000228296",
+    "RBMY2YP": "ENSG00000227633",
+    "FGFR3": "ENSG00000068078",
+    "KDR": "ENSG00000128052",
+    "ANK2": "ENSG00000145362"
+}
 
 
 def read_template_html_file(filename):
@@ -73,3 +86,72 @@ def chromosome_length(specie, chromosome):
     else:
         contents = read_template_html_file("./html/Error.html").render()
         return contents
+
+
+def gene_seq(gene):
+    if gene in DICT_GENES.keys():
+        id = DICT_GENES[gene]
+        r = requests.get(SERVER + "/sequence/id/" + id, headers={"Content-Type": "application/json"})
+        if not r.ok:
+            r.raise_for_status()
+            sys.exit()
+        decoded = r.json()
+        s = decoded["seq"]
+        sequence = Seq(s)
+        context = {
+            "gene_name": gene,
+            "gene_contents": sequence
+        }
+        contents = read_template_html_file("./html/geneSeq.html").render(context=context)
+    else:
+        contents = read_template_html_file("./html/Error.html").render()
+    return contents
+
+
+def gene_info(gene):
+    if gene in DICT_GENES.keys():
+        id = DICT_GENES[gene]
+        r = requests.get(SERVER + "/sequence/id/" + id, headers={"Content-Type": "application/json"})
+        if not r.ok:
+            r.raise_for_status()
+            sys.exit()
+        decoded = r.json()
+        s = decoded["seq"]
+        c = decoded["desc"].split(":")[2]
+        start = decoded["desc"].split(":")[3]
+        end = decoded["desc"].split(":")[4]
+        sequence = Seq(s)
+        t_length = Seq.len(sequence)
+        context = {
+            "gene_name": gene,
+            "start": start,
+            "end": end,
+            "length": t_length,
+            "id": id,
+            "chromosome": c
+        }
+        contents = read_template_html_file("html/geneInfo.html").render(context=context)
+    else:
+        contents = read_template_html_file("./html/Error.html").render()
+    return contents
+
+
+def gene_calc(gene):
+    if gene in DICT_GENES.keys():
+        id = DICT_GENES[gene]
+        r = requests.get(SERVER + "/sequence/id/" + id, headers={"Content-Type": "application/json"})
+        if not r.ok:
+            r.raise_for_status()
+            sys.exit()
+        decoded = r.json()
+        s = decoded["seq"]
+        sequence = Seq(s)
+        calc_seq = Seq.percentage(sequence)
+        context = {
+            "gene_name": gene,
+            "information": calc_seq
+        }
+        contents = read_template_html_file("html/geneCalc.html").render(context=context)
+    else:
+        contents = read_template_html_file("./html/Error.html").render()
+    return contents

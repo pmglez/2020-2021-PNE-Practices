@@ -54,6 +54,18 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
                 chromosome = arguments["chromo"][0]
                 contents = SU.chromosome_length(specie, chromosome)
                 print(contents)
+            elif path_name == "/geneSeq":
+                gene = arguments["gene"][0]
+                contents = SU.gene_seq(gene)
+                print(contents)
+            elif path_name == "/geneInfo":
+                gene = arguments["gene"][0]
+                contents = SU.gene_info(gene)
+                print(contents)
+            elif path_name == "/geneCalc":
+                gene = arguments["gene"][0]
+                contents = SU.gene_calc(gene)
+                print(contents)
             else:
                 contents = SU.read_template_html_file("./html/Error.html").render()
         except requests.exceptions.HTTPError:

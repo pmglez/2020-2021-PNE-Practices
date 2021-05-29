@@ -1,0 +1,365 @@
+Test report
+========================================================================================================================
+
+---> listSpecies endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=3
+
+* Output:
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>LIST OF SPECIES IN THE BROWSER</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The total number of species in the ensembl is : 310 <br>
+           The limit you have selected is : 3 <br>
+           The names of the species are :
+                <ul>
+                    <li>little spotted kiwi</li>
+
+                    <li>Indian glassy fish</li>
+
+                    <li>blue tit</li>
+                </ul>
+        </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/listSpecies?limit=f
+
+* Output:
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+========================================================================================================================
+========================================================================================================================
+
+---> karyotype endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/karyotype?specie=human
+
+* Output:
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>KARYOTYPE OF THE SPECIE</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The names of the chromosomes are : <br>
+
+                    1 <br>
+
+                    2 <br>
+
+                    3 <br>
+
+                    4 <br>
+
+                    5 <br>
+
+                    6 <br>
+
+                    7 <br>
+
+                    8 <br>
+
+                    9 <br>
+
+                    10 <br>
+
+                    11 <br>
+
+                    12 <br>
+
+                    13 <br>
+
+                    14 <br>
+
+                    15 <br>
+
+                    16 <br>
+
+                    17 <br>
+
+                    18 <br>
+
+                    19 <br>
+
+                    20 <br>
+
+                    21 <br>
+
+                    22 <br>
+
+                    X <br>
+
+                    Y <br>
+
+                    MT <br>
+
+        </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/karyotype?specie=53
+
+* Output:
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+========================================================================================================================
+========================================================================================================================
+
+---> chromosomeLength endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/chromosomeLength?specie=human&chromo=X
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <title>LENGTH OF THE CHROMOSOME</title>
+        </head>
+        <body style="background-color: lightblue;">
+           The length of the chromosome is : 156040895
+        </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/chromosomeLength?specie=human&chromo=0
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+========================================================================================================================
+========================================================================================================================
+
+---> geneSeq endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/geneSeq?gene=MIR633
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Seq Server</title>
+      </head>
+      <body style="background-color: lightblue;">
+        <h1>Gene: <br> MIR633</h1>
+        <textarea id="gene_content" name="gene_bases" rows="35" cols="105" style="background-color:lightblue;">
+            AACCTCTCTTAGCCTCTGTTTCTTTATTGCGGTAGATACTATTAACCTAAAATGAGAAGGCTAATAGTATCTACCACAATAAAATTGTTGTGAGGATA
+        </textarea>
+      </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/geneSeq?gene=
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+========================================================================================================================
+========================================================================================================================
+
+---> geneInfo endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/geneInfo?gene=FRAT1
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Info Server</title>
+      </head>
+      <body style="background-color: lightblue;">
+        <h1>Gene: <br> FRAT1</h1>
+        <h2>Info</h2>
+        <p>The first character is : 97319271</p>
+        <p>The last character is : 97321915</p>
+        <p>The total length is : 2645</p>
+        <p>The id is : ENSG00000165879</p>
+        <p>The chromosome is : 10</p>
+      </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/geneInfo?gene=19
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
+
+========================================================================================================================
+========================================================================================================================
+
+---> geneCalc endpoint
+
+* TEST 1:
+
+* Input:
+
+http://127.0.0.1:8080/geneCalc?gene=ADA
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Calc Server</title>
+      </head>
+      <body style="background-color: lightblue;">
+        <h1>Gene: <br> ADA</h1>
+        <h2>Info</h2>
+        <p>
+            Total length: 32712 <br><br>
+
+            A: 7178 (21.9%) <br><br>
+
+            C: 8721 (26.7%) <br><br>
+
+            G: 8768 (26.8%) <br><br>
+
+            T: 8045 (24.6%) <br><br>
+          </p>
+        <p></p>
+      </body>
+    </html>
+
+
+* TEST 2:
+
+* Input:
+
+http://127.0.0.1:8080/geneCalc?gene=MT
+
+* Output:
+
+<!DOCTYPE html>
+    <html lang="en" dir="ltr">
+      <head>
+        <meta charset="utf-8">
+        <title>Server</title>
+      </head>
+      <body style="background-color: red;">
+        <h1>ERROR</h1>
+        <p>Welcome to the DATA ERROR server</p>
+        <p>If you are here is because the data you have entered does not exist on the ensembl</p>
+      <p></p>
+      <a href="/">Main page</a>
+      </body>
+    </html>
