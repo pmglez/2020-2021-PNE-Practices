@@ -25,22 +25,26 @@ def read_template_html_file(filename):
     return content
 
 
-def list_species(limit_species):
-    ext = "/info/species?"
-    r = requests.get(SERVER + ext, headers={"Content-Type": "application/json"})
+def read_request(endpoint, argument):
+    r = requests.get(SERVER + endpoint + argument + "?", headers={"Content-Type": "application/json"})
     if not r.ok:
         r.raise_for_status()
         sys.exit()
     decoded = r.json()
-    s = decoded["species"]
+    return decoded
 
-    LIST_NAMES = []
+
+def list_species(limit_species):
+    ext = "/info/species"
+    decoded = read_request(ext, "")
+    s = decoded["species"]
+    list_names = []
     for e in s:
         name = e['common_name']
-        LIST_NAMES.append(name)
-    limit_list = LIST_NAMES[:int(limit_species)]
+        list_names.append(name)
+    limit_list = list_names[:int(limit_species)]
     context = {
-        "total_length": len(LIST_NAMES),
+        "total_length": len(list_names),
         "limit": limit_species,
         "listSpecies": limit_list
     }
@@ -49,11 +53,8 @@ def list_species(limit_species):
 
 
 def information_karyotype(specie):
-    r = requests.get(SERVER + "/info/assembly/" + specie + "?", headers={"Content-Type": "application/json"})
-    if not r.ok:
-        r.raise_for_status()
-        sys.exit()
-    decoded = r.json()
+    ext = "/info/assembly/"
+    decoded = read_request(ext, specie)
     s = decoded['karyotype']
     context = {
         "karyotype": s
@@ -63,11 +64,8 @@ def information_karyotype(specie):
 
 
 def chromosome_length(specie, chromosome):
-    r = requests.get(SERVER + "/info/assembly/" + specie + "?", headers={"Content-Type": "application/json"})
-    if not r.ok:
-        r.raise_for_status()
-        sys.exit()
-    decoded = r.json()
+    ext = "/info/assembly/"
+    decoded = read_request(ext, specie)
     s = decoded["top_level_region"]
     keys = []
     values = []
@@ -89,13 +87,10 @@ def chromosome_length(specie, chromosome):
 
 
 def gene_seq(gene):
+    ext = "/sequence/id/"
     if gene in DICT_GENES.keys():
         id = DICT_GENES[gene]
-        r = requests.get(SERVER + "/sequence/id/" + id, headers={"Content-Type": "application/json"})
-        if not r.ok:
-            r.raise_for_status()
-            sys.exit()
-        decoded = r.json()
+        decoded = read_request(ext, id)
         s = decoded["seq"]
         sequence = Seq(s)
         context = {
@@ -109,13 +104,10 @@ def gene_seq(gene):
 
 
 def gene_info(gene):
+    ext = "/sequence/id/"
     if gene in DICT_GENES.keys():
         id = DICT_GENES[gene]
-        r = requests.get(SERVER + "/sequence/id/" + id, headers={"Content-Type": "application/json"})
-        if not r.ok:
-            r.raise_for_status()
-            sys.exit()
-        decoded = r.json()
+        decoded = read_request(ext, id)
         s = decoded["seq"]
         c = decoded["desc"].split(":")[2]
         start = decoded["desc"].split(":")[3]
@@ -137,13 +129,10 @@ def gene_info(gene):
 
 
 def gene_calc(gene):
+    ext = "/sequence/id/"
     if gene in DICT_GENES.keys():
         id = DICT_GENES[gene]
-        r = requests.get(SERVER + "/sequence/id/" + id, headers={"Content-Type": "application/json"})
-        if not r.ok:
-            r.raise_for_status()
-            sys.exit()
-        decoded = r.json()
+        decoded = read_request(ext, id)
         s = decoded["seq"]
         sequence = Seq(s)
         calc_seq = Seq.percentage(sequence)
