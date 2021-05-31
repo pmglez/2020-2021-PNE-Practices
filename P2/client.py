@@ -1,7 +1,7 @@
 import socket
 
 # SERVER IP, PORT
-PORT = 12002
+PORT = 12000
 IP = "192.168.8.212"
 
 # First, create the socket

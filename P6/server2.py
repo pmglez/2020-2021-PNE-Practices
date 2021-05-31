@@ -63,33 +63,36 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         # that everything is ok
 
         context = {}
-        if path_name == "/":
-            context["n_seq"] = len(LIST_SEQUENCES)
-            context["list_genes"] = LIST_GENES
-            contents = su.read_template_html_file("./html/index.html").render(context=context)
-        elif path_name == "/test":
-            contents = su.read_template_html_file("./html/test.html").render()
-        elif path_name == "/ping":
-            contents = su.read_template_html_file("./html/ping.html").render()
-        elif path_name == "/get":
-            number_sequence = arguments["sequence"][0]
-            contents = su.get(LIST_SEQUENCES, number_sequence)
-        elif path_name == "/gene":
-            gene = arguments["gene"][0]
-            contents = su.gene(gene)
-        elif path_name == "/operation":
-            sequence = arguments["sequence"][0]
-            operation = arguments["calculation"][0]
-            if operation == "Info":
-                contents = su.info(sequence, operation)
-            elif operation == "Comp":
-                contents = su.comp(sequence, operation)
-            elif operation == "Rev":
-                contents = su.rev(sequence, operation)
+        try:
+            if path_name == "/":
+                context["n_seq"] = len(LIST_SEQUENCES)
+                context["list_genes"] = LIST_GENES
+                contents = su.read_template_html_file("./html/index.html").render(context=context)
+            elif path_name == "/test":
+                contents = su.read_template_html_file("./html/test.html").render()
+            elif path_name == "/ping":
+                contents = su.read_template_html_file("./html/ping.html").render()
+            elif path_name == "/get":
+                number_sequence = arguments["sequence"][0]
+                contents = su.get(LIST_SEQUENCES, number_sequence)
+            elif path_name == "/gene":
+                gene = arguments["gene"][0]
+                contents = su.gene(gene)
+            elif path_name == "/operation":
+                sequence = arguments["sequence"][0]
+                operation = arguments["calculation"][0]
+                if operation == "Info":
+                    contents = su.info(sequence, operation)
+                elif operation == "Comp":
+                    contents = su.comp(sequence, operation)
+                elif operation == "Rev":
+                    contents = su.rev(sequence, operation)
+                else:
+                    contents = su.read_template_html_file("./html/Error.html").render()
+
             else:
                 contents = su.read_template_html_file("./html/Error.html").render()
-
-        else:
+        except KeyError:
             contents = su.read_template_html_file("./html/Error.html").render()
 
         # Generating the response message

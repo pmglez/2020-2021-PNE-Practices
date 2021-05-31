@@ -1,10 +1,10 @@
 import socket
-import server_utils
+import seq_server_utils
 
 list_sequences = ["AGATCGCGCCACTTCACTGC", "AGCCTCCGCGAAAGAGCGAA", "ACTCCGTCTCAGTAAATAAA", "CTGTACCCGCGTGTTATTTC", "GCCCCCCTCGAAAGTTCCTT"]
 
 # Configure the Server's IP and PORT
-PORT = 8081
+PORT = 8088
 IP = "127.0.0.1"
 
 # -- Step 1: create the socket
@@ -35,10 +35,8 @@ while True:
     # -- Server stopped manually
     except KeyboardInterrupt:
         print("Server stopped by the user")
-
         # -- Close the listening socket
         ls.close()
-
         # -- Exit!
         exit()
 
@@ -49,10 +47,9 @@ while True:
     # -- We decode it for converting it
     # -- into a human-readable string
     msg = msg_raw.decode()
-
-    formatted_message = server_utils.format_command(msg)
-
+    formatted_message = seq_server_utils.format_command(msg)
     formatted_message = formatted_message.split(" ")
+
     if len(formatted_message) == 1:
         command = formatted_message[0]
     else:
@@ -60,23 +57,17 @@ while True:
         argument = formatted_message[1]
 
     if command == "PING":
-        server_utils.ping(cs)
-
+        seq_server_utils.ping(cs)
     elif command == "GET":
-        server_utils.get(cs, list_sequences, argument)
-
+        seq_server_utils.get(cs, list_sequences, argument)
     elif command == "INFO":
-        server_utils.info(cs, argument)
-
+        seq_server_utils.info(cs, argument)
     elif command == "COMP":
-        server_utils.comp(cs, argument)
-
+        seq_server_utils.comp(cs, argument)
     elif command == "REV":
-        server_utils.rev(cs, argument)
-
+        seq_server_utils.rev(cs, argument)
     elif command == "GENE":
-        server_utils.gene(cs, argument)
-
+        seq_server_utils.gene(cs, argument)
     else:
         response = "Not available command"
         cs.send(str(response).encode())
