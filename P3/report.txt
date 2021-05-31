@@ -1,0 +1,16 @@
+
+echo '''something''' | ./nc -w 1 127.0.0.1 8088
+
+
+echo "PING" | ./nc -w 1 127.0.0.1 8088
+echo "GET 0" | ./nc -w 1 127.0.0.1 8088
+echo "INFO AACCGTA" | ./nc -w 1 127.0.0.1 8088
+echo "COMP AACCGTA" | ./nc -w 1 127.0.0.1 8088
+echo "REV AACCGTA" | ./nc -w 1 127.0.0.1 8088
+echo "GENE ADA" | ./nc -w 1 127.0.0.1 8088
+
+
+echo "Hello" | nc 127.0.0.1 8088
+
+
+curl 127.0.0.1 8088 -v

@@ -47,8 +47,8 @@ while True:
     # -- into a human-readable string
     msg = msg_raw.decode()
     formatted_message = server_utils.format_command(msg)
-
     formatted_message = formatted_message.split(" ")
+
     if len(formatted_message) == 1:
         command = formatted_message[0]
     else:
