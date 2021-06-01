@@ -14,3 +14,16 @@ echo "Hello" | nc 127.0.0.1 8088
 
 
 curl 127.0.0.1 8088 -v
+
+
+
+
+print f '''something'''  nc 127.0.0.1 8088
+
+
+printf "PING" | nc 127.0.0.1 8088
+printf "GET 0" | nc 127.0.0.1 8088
+printf "INFO AACCGTA" | nc 127.0.0.1 8088
+printf "COMP AACCGTA" | nc 127.0.0.1 8088
+printf "REV AACCGTA" | nc 127.0.0.1 8088
+printf "GENE ADA" | nc 127.0.0.1 8088
