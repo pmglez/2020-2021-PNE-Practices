@@ -53,7 +53,7 @@ def rev(cs, argument):
 
 def gene(cs, argument):
     print_coloured("GENE", "green")
-    folder = "./sequences/"
+    folder = "./Sequences/"
     sequence = Seq()
     sequence.seq_read_fasta(folder + argument + ".txt")
     response = sequence
