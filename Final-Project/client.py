@@ -1,7 +1,6 @@
 import http.client
 import json
 import termcolor
-# from ensembl_class import Ensembl
 from Seq1 import Seq
 
 PORT = 8080
@@ -25,20 +24,21 @@ except ConnectionRefusedError:
 r1 = conn.getresponse()
 
 # -- Print the status line
-termcolor.cprint(f"Response received!: {r1.status} {r1.reason}\n", "green")
+print(f"Response received!: {r1.status} {r1.reason}\n")
 
 # -- Read the response's body
 data1 = r1.read().decode("utf-8")
 species = json.loads(data1)
 species_limit = species["species"][0:10]
 
-print("LIST SPECIES: ")
-print()
+termcolor.cprint("LIST SPECIES:", "yellow")
+
 for s in species_limit:
     termcolor.cprint("Name: ", 'blue', end="")
     print(s["name"])
 
-print("----------------------------------------------------------------------------------------------------")
+print()
+termcolor.cprint("------------------------------------------------------------------------------------------", "yellow")
 
 try:
     conn.request("GET", "/karyotype?specie=human" + JSON_PARAM)
@@ -46,24 +46,21 @@ except ConnectionRefusedError:
     print("ERROR! Cannot connect to the Server")
     exit()
 
-# -- Read the response message from the server
 r2 = conn.getresponse()
+print(f"Response received!: {r2.status} {r2.reason}\n")
 
-# -- Print the status line
-termcolor.cprint(f"Response received!: {r2.status} {r2.reason}\n", "green")
-
-# -- Read the response's body
 data2 = r2.read().decode("utf-8")
 information = json.loads(data2)
 karyotype = information["karyotype"]
 
-print("LIST CHROMOSOMES: ")
-print()
+termcolor.cprint("LIST CHROMOSOMES:", "yellow")
+
 for k in karyotype:
-    termcolor.cprint("Chromosome: ", 'red', end="")
+    termcolor.cprint("Chromosome: ", 'blue', end="")
     print(k)
 
-print("----------------------------------------------------------------------------------------------------")
+print()
+termcolor.cprint("------------------------------------------------------------------------------------------", "yellow")
 
 try:
     conn.request("GET", "/chromosomeLength?specie=human&chromo=21" + JSON_PARAM)
@@ -71,13 +68,9 @@ except ConnectionRefusedError:
     print("ERROR! Cannot connect to the Server")
     exit()
 
-# -- Read the response message from the server
 r3 = conn.getresponse()
+print(f"Response received!: {r3.status} {r3.reason}\n")
 
-# -- Print the status line
-termcolor.cprint(f"Response received!: {r3.status} {r3.reason}\n", "green")
-
-# -- Read the response's body
 data3 = r3.read().decode("utf-8")
 information = json.loads(data3)
 info = information["top_level_region"]
@@ -89,12 +82,13 @@ for i in info:
         lengths.append(i["length"])
 info_dict = dict(zip(names, lengths))
 
-print("LENGTH CHROMOSOME: ")
-print()
-termcolor.cprint("Length: ", 'yellow', end="")
+termcolor.cprint("LENGTH CHROMOSOME:", "yellow")
+
+termcolor.cprint("Length: ", 'blue', end="")
 print(info_dict["21"])
 
-print("----------------------------------------------------------------------------------------------------")
+print()
+termcolor.cprint("------------------------------------------------------------------------------------------", "yellow")
 
 try:
     conn.request("GET", "/geneSeq?gene=FRAT1" + JSON_PARAM)
@@ -102,22 +96,20 @@ except ConnectionRefusedError:
     print("ERROR! Cannot connect to the Server")
     exit()
 
-# -- Read the response message from the server
 r4 = conn.getresponse()
+print(f"Response received!: {r4.status} {r4.reason}\n")
 
-# -- Print the status line
-termcolor.cprint(f"Response received!: {r4.status} {r4.reason}\n", "green")
-
-# -- Read the response's body
 data4 = r4.read().decode("utf-8")
 information = json.loads(data4)
 sequence = information["seq"]
-print("GENE SEQUENCE: ")
-print()
+
+termcolor.cprint("GENE SEQUENCE:", "yellow")
+
 termcolor.cprint("Sequence: ", 'blue', end="")
 print(sequence)
 
-print("----------------------------------------------------------------------------------------------------")
+print()
+termcolor.cprint("------------------------------------------------------------------------------------------", "yellow")
 
 try:
     conn.request("GET", "/geneInfo?gene=FRAT1" + JSON_PARAM)
@@ -125,13 +117,9 @@ except ConnectionRefusedError:
     print("ERROR! Cannot connect to the Server")
     exit()
 
-# -- Read the response message from the server
 r5 = conn.getresponse()
+print(f"Response received!: {r5.status} {r5.reason}\n")
 
-# -- Print the status line
-termcolor.cprint(f"Response received!: {r5.status} {r5.reason}\n", "green")
-
-# -- Read the response's body
 data5 = r5.read().decode("utf-8")
 information = json.loads(data5)
 id = information["query"]
@@ -140,15 +128,16 @@ s = Seq(s)
 t_len = Seq.len(s)
 description = information["desc"].split(":")
 
-print("INFORMATION: ")
-print()
-termcolor.cprint("Start: ", "red", end=""), print(description[3])
-termcolor.cprint("End: ", "red", end=""), print(description[4])
-termcolor.cprint("Length: ", "red", end=""), print(t_len)
-termcolor.cprint("id: ", "red", end=""), print(id)
-termcolor.cprint("Chromosome: ", "red", end=""), print(description[2])
+termcolor.cprint("INFORMATION:", "yellow")
 
-print("----------------------------------------------------------------------------------------------------")
+termcolor.cprint("Start: ", "blue", end=""), print(description[3])
+termcolor.cprint("End: ", "blue", end=""), print(description[4])
+termcolor.cprint("Length: ", "blue", end=""), print(t_len)
+termcolor.cprint("id: ", "blue", end=""), print(id)
+termcolor.cprint("Chromosome: ", "blue", end=""), print(description[2])
+
+print()
+termcolor.cprint("------------------------------------------------------------------------------------------", "yellow")
 
 try:
     conn.request("GET", "/geneCalc?gene=FRAT1" + JSON_PARAM)
@@ -156,21 +145,17 @@ except ConnectionRefusedError:
     print("ERROR! Cannot connect to the Server")
     exit()
 
-# -- Read the response message from the server
 r6 = conn.getresponse()
+print(f"Response received!: {r6.status} {r6.reason}\n")
 
-# -- Print the status line
-termcolor.cprint(f"Response received!: {r6.status} {r6.reason}\n", "green")
-
-# -- Read the response's body
 data6 = r6.read().decode("utf-8")
 information = json.loads(data6)
 s = information["seq"]
 s = Seq(s)
 calculations = Seq.percentage(s)
 
-print("CALCULATIONS: ")
-print()
+termcolor.cprint("CALCULATIONS:", "yellow")
+
 for l in calculations:
     m = l.split(":")
     termcolor.cprint(m[0] + ":", "blue", end="")

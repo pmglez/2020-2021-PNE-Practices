@@ -26,7 +26,7 @@ class Seq:
             self.strbases = strbases
         else:
             if Seq.is_valid_sequence_2(strbases):
-                print("New sequence created!")
+                # print("New sequence created!")
                 self.strbases = strbases
             else:
                 self.strbases = Seq.INVALID_SEQUENCE
