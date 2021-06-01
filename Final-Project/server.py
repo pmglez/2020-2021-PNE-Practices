@@ -4,6 +4,7 @@ import termcolor
 from urllib.parse import urlparse, parse_qs
 import server_utils as SU
 import requests
+import json
 
 # Define the Server's port
 PORT = 8080
@@ -38,48 +39,122 @@ class TestHandler(http.server.BaseHTTPRequestHandler):
         try:
             if path_name == "/":
                 contents = SU.read_template_html_file("./html/index.html").render()
+                content_type = "text/html"
+
             elif path_name == "/listSpecies":
-                limit_species = arguments["limit"][0]
-                if limit_species.isdigit() and int(limit_species) > 0:
-                    contents = SU.list_species(limit_species)
+                if "limit" in arguments.keys() and len(arguments) == 1:
+                    limit_species = arguments["limit"][0]
+                    if limit_species.isdigit() and int(limit_species) > 0:
+                        contents = SU.list_species(limit_species, json_param=False)
+                    else:
+                        contents = SU.read_template_html_file("./html/Error.html").render()
+                    content_type = "text/html"
+                elif "limit" and "json" in arguments.keys() and arguments["json"][0] == "1" and len(arguments) == 2:
+                    limit_species = arguments["limit"][0]
+                    contents = SU.list_species(limit_species, json_param=True)
+                    contents = json.dumps(contents)
+                    content_type = "application/json"
                 else:
                     contents = SU.read_template_html_file("./html/Error.html").render()
+                    content_type = "text/html"
                 print(contents)
+
             elif path_name == "/karyotype":
-                specie = arguments["specie"][0]
-                contents = SU.information_karyotype(specie)
+                if "specie" in arguments.keys() and len(arguments) == 1:
+                    specie = arguments["specie"][0]
+                    contents = SU.information_karyotype(specie, json_param=False)
+                    content_type = "text/html"
+                elif "specie" and "json" in arguments.keys() and arguments["json"][0] == "1" and len(arguments) == 2:
+                    specie = arguments["specie"][0]
+                    contents = SU.information_karyotype(specie, json_param=True)
+                    contents = json.dumps(contents)
+                    content_type = "application/json"
+                else:
+                    contents = SU.read_template_html_file("./html/Error.html").render()
+                    content_type = "text/html"
                 print(contents)
+
             elif path_name == "/chromosomeLength":
-                specie = arguments["specie"][0]
-                chromosome = arguments["chromo"][0]
-                contents = SU.chromosome_length(specie, chromosome)
+                if "specie" and "chromo" in arguments.keys() and len(arguments) == 2:
+                    specie = arguments["specie"][0]
+                    chromosome = arguments["chromo"][0]
+                    contents = SU.chromosome_length(specie, chromosome, json_param=False)
+                    content_type = "text/html"
+                elif "specie" and "chromo" and "json" in arguments.keys() and arguments["json"][0] == "1" \
+                        and len(arguments) == 3:
+                    specie = arguments["specie"][0]
+                    chromosome = arguments["chromo"][0]
+                    contents = SU.chromosome_length(specie, chromosome, json_param=True)
+                    contents = json.dumps(contents)
+                    content_type = "application/json"
+                else:
+                    contents = SU.read_template_html_file("./html/Error.html").render()
+                    content_type = "text/html"
                 print(contents)
+
             elif path_name == "/geneSeq":
-                gene = arguments["gene"][0]
-                contents = SU.gene_seq(gene)
+                if "gene" in arguments.keys() and len(arguments) == 1:
+                    gene = arguments["gene"][0]
+                    contents = SU.gene_seq(gene, json_param=False)
+                    content_type = "text/html"
+                elif "gene" and "json" in arguments.keys() and arguments["json"][0] == "1" and len(arguments) == 2:
+                    gene = arguments["gene"][0]
+                    contents = SU.gene_seq(gene, json_param=True)
+                    contents = json.dumps(contents)
+                    content_type = "application/json"
+                else:
+                    contents = SU.read_template_html_file("./html/Error.html").render()
+                    content_type = "text/html"
                 print(contents)
+
             elif path_name == "/geneInfo":
-                gene = arguments["gene"][0]
-                contents = SU.gene_info(gene)
+                if "gene" in arguments.keys() and len(arguments) == 1:
+                    gene = arguments["gene"][0]
+                    contents = SU.gene_info(gene, json_param=False)
+                    content_type = "text/html"
+                elif "gene" and "json" in arguments.keys() and arguments["json"][0] == "1" and len(arguments) == 2:
+                    gene = arguments["gene"][0]
+                    contents = SU.gene_info(gene, json_param=True)
+                    contents = json.dumps(contents)
+                    content_type = "application/json"
+                else:
+                    contents = SU.read_template_html_file("./html/Error.html").render()
+                    content_type = "text/html"
                 print(contents)
+
             elif path_name == "/geneCalc":
-                gene = arguments["gene"][0]
-                contents = SU.gene_calc(gene)
+                if "gene" in arguments.keys() and len(arguments) == 1:
+                    gene = arguments["gene"][0]
+                    contents = SU.gene_calc(gene, json_param=False)
+                    content_type = "text/html"
+                elif "gene" and "json" in arguments.keys() and arguments["json"][0] == "1" and len(arguments) == 2:
+                    gene = arguments["gene"][0]
+                    contents = SU.gene_calc(gene, json_param=True)
+                    contents = json.dumps(contents)
+                    content_type = "application/json"
+                else:
+                    contents = SU.read_template_html_file("./html/Error.html").render()
+                    content_type = "text/html"
                 print(contents)
+
             else:
                 contents = SU.read_template_html_file("./html/Error.html").render()
+                content_type = "text/html"
+
         except requests.exceptions.HTTPError:
             contents = SU.read_template_html_file("./html/Error.html").render()
             print(contents)
+            content_type = "text/html"
         except KeyError:
             contents = SU.read_template_html_file("./html/Error.html").render()
             print(contents)
+            content_type = "text/html"
 
         # Generating the response message
         self.send_response(200)  # -- Status line: OK!
 
         # Define the content-type header:
-        self.send_header('Content-Type', 'text/html')
+        self.send_header('Content-Type', content_type)
         self.send_header('Content-Length', str(len(contents.encode())))
 
         # The header is finished
